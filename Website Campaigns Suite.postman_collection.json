@@ -51,10 +51,6 @@
               "pm.test(\"Lead created successfully\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
-              "",
-              "// Automation: Extract the ID from the response and save it",
-              "var responseData = pm.response.json();",
-              "pm.environment.set(\"latest_lead_id\", responseData.id);",
               ""
             ],
             "type": "text/javascript",
