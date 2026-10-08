@@ -1,0 +1,120 @@
+{
+  "info": {
+    "_postman_id": "941e720f-ce76-4cea-9ca9-7fbc0fc9e3ee",
+    "name": "Website Campaigns Suite",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30916728",
+    "_collection_link": "https://go.postman.co/collection/30916728-941e720f-ce76-4cea-9ca9-7fbc0fc9e3ee?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Verify Server Status",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/posts/{{latest_lead_id}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "posts",
+            "{{latest_lead_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit Campaign Lead (POST)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test 1: Verify the server created the record",
+              "pm.test(\"Lead created successfully\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Automation: Extract the ID from the response and save it",
+              "var responseData = pm.response.json();",
+              "pm.environment.set(\"latest_lead_id\", responseData.id);",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Web Campaign 2026\",\n  \"name\": \"{{$randomFullName}}\",\n  \"company_name\": \"{{$randomCompanyName}}\",\n  \"postcode\": \"SW1A 1AA\",\n  \"email\": \"{{$randomEmail}}\"\n}\n\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/posts",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verify Lead Exists (GET)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Lead record successfully retrieved\", function () {\n    pm.response.to.have.status(200);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/posts/{{latest_lead_id}}",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "posts",
+            "{{latest_lead_id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
