@@ -20,4 +20,4 @@ jobs:
 
     - name: Execute Bulk Spreadsheet Automation
       run: |
-        npx newman run "Website Campaigns Suite.postman_collection.json" -e "Campaign Config.postman_environment.json" -d test_leads.csv
+        npx newman run "Website Campaigns Suite.postman_collection.json" -e "Campaign Config.postman_environment.json" -d "test_leads - Sheet1.csv"
