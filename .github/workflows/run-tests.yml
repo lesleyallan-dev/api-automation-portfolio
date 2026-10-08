@@ -1,0 +1,23 @@
+name: Automated Integration Test Suite
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  qa-automation-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out your testing files
+      uses: actions/checkout@v4
+
+    - name: Set up NodeJS on the Cloud Robot
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Execute Bulk Spreadsheet Automation
+      run: |
+        npx newman run "Website Campaigns Suite.postman_collection.json" -e "Campaign Config.postman_environment.json" -d test_leads.csv
