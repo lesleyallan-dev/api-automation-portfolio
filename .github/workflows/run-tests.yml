@@ -25,7 +25,7 @@ jobs:
     - name: Decompress Power Platform Archive
     uses: microsoft/powerplatform-actions/unpack-solution@v0
       with:
-        solution-file: 'InventoryOperations_1_0_0_1.zip'
+        solution-file: 'InverntoryOperations_1_0_0_1.zip'
         solution-folder: 'exported-code/InventoryOperations'
         solution-type: 'Unmanaged'
 
