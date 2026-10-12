@@ -20,10 +20,16 @@ jobs:
 
     - name: Execute Bulk Spreadsheet Automation
       run: |
-        npx newman run "Website Campaigns Suite.postman_collection.json" -e "Campaign Config.postman_environment.json" -d "test_leads - Sheet1.csv"
+        npx -p newman -p newman-reporter-htmlextra newman run "Website Campaigns Suite.postman_collection.json" -e "Campaign Config.postman_environment.json" -d "test_leads - Sheet1.csv" -r htmlextra
 
-    - name: Decompress Power Platform Archive
-    uses: microsoft/powerplatform-actions/unpack-solution@v0
+    - name: Save Visual HTML Report Dashboard
+      uses: actions/upload-artifact@v4
+      with:
+        name: visual-qa-dashboard
+        path: newman/
+
+    - name: Decompress Power Platform Solution Archive
+      uses: microsoft/powerplatform-actions/unpack-solution@v0
       with:
         solution-file: 'InverntoryOperations_1_0_0_1.zip'
         solution-folder: 'exported-code/InventoryOperations'
@@ -36,8 +42,3 @@ jobs:
         git add exported-code/
         git commit -m "Automated ALM: Extracted raw Solution XML schemas" || echo "No changes to commit"
         git push
-
-
-
-
-    
