@@ -21,3 +21,23 @@ jobs:
     - name: Execute Bulk Spreadsheet Automation
       run: |
         npx newman run "Website Campaigns Suite.postman_collection.json" -e "Campaign Config.postman_environment.json" -d "test_leads - Sheet1.csv"
+
+    - name: Decompress Power Platform Archive
+    uses: microsoft/powerplatform-actions/unpack-solution@v0
+      with:
+        solution-file: 'InventoryOperations_1_0_0_1.zip'
+        solution-folder: 'exported-code/InventoryOperations'
+        solution-type: 'Unmanaged'
+
+    - name: Commit Unpacked Source Code to Git Repository
+      run: |
+        git config --global user.name "GitHub DevOps Robot"
+        git config --global user.email "devops@github.com"
+        git add exported-code/
+        git commit -m "Automated ALM: Extracted raw Solution XML schemas" || echo "No changes to commit"
+        git push
+
+
+
+
+    
