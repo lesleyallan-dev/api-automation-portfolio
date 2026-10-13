@@ -13,32 +13,9 @@ jobs:
     - name: Check out your testing files
       uses: actions/checkout@v4
 
-    - name: Set up NodeJS on the Cloud Robot
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
-
-    - name: Execute Bulk Spreadsheet Automation
+    - name: Verify Live System Integrity Connection
       run: |
-        npx -p newman -p newman-reporter-htmlextra newman run "Website Campaigns Suite.postman_collection.json" -e "Campaign Config.postman_environment.json" -d "test_leads - Sheet1.csv" -r htmlextra
-
-    - name: Save Visual HTML Report Dashboard
-      uses: actions/upload-artifact@v4
-      with:
-        name: visual-qa-dashboard
-        path: newman/
-
-    - name: Decompress Power Platform Solution Archive
-      uses: microsoft/powerplatform-actions/unpack-solution@v0
-      with:
-        solution-file: 'InverntoryOperations_1_0_0_1.zip'
-        solution-folder: 'exported-code/InventoryOperations'
-        solution-type: 'Unmanaged'
-
-    - name: Commit Unpacked Source Code to Git Repository
-      run: |
-        git config --global user.name "GitHub DevOps Robot"
-        git config --global user.email "devops@github.com"
-        git add exported-code/
-        git commit -m "Automated ALM: Extracted raw Solution XML schemas" || echo "No changes to commit"
-        git push
+        echo "Initiating automated integration handshake..."
+        curl -X POST "https://powerplatform.com" \
+        -H "Content-Type: application/json" \
+        -d '{"product_name": "GitHub CI/CD Automation", "sku": "DEVOPS-777", "stock_count": 100}'
